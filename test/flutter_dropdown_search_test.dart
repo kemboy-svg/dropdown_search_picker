@@ -1,5 +1,5 @@
+import 'package:dropdown_search_picker/dropdown_search_picker.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:dropdown_search/dropdown_search_picker.dart';
 
 void main() {
   test('Dropdown initializes correctly', () {
