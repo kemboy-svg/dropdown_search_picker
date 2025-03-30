@@ -42,13 +42,13 @@ Use the widget:
 
 ```dart
 CustomDropdownPicker<String>(
-  title: 'Select a Fruit',
-  items: ['Apple', 'Banana', 'Cherry', 'Date'],
+  title: 'Select a location',
+  items: ['Kitengela', 'Nairobi', 'Bhaghatell', 'Port-louis','Grand Bay'],
   getItemLabel: (item) => item,
   onItemSelected: (item) {
     print('Selected: $item');
   },
-  initial: 'Select a fruit',
+  initial: 'Select a location',
 )
 ```
 
