@@ -13,7 +13,7 @@ Add the following to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  flutter_dropdown_search:
+  dropdown_search_picker:
     git:
       url: https://github.com/your-repo/flutter_dropdown_search.git
 ```
@@ -22,7 +22,7 @@ Or after publishing:
 
 ```yaml
 dependencies:
-  flutter_dropdown_search: ^1.0.0
+  dropdown_search_picker: ^1.0.0
 ```
 
 Run:
