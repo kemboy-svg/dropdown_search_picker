@@ -59,6 +59,13 @@ CustomDropdownPicker<String>(
 - **onItemSelected**: A callback function when an item is selected.
 - **initial**: Placeholder text before selection.
 
+## Contributions
+
+Feel free to contribute to this project.
+
+If you find a bug or want a feature, but don't know how to fix/implement it, please fill an [issue](https://github.com/kemboy-svg/dropdown_search_picker/issues).  
+If you fixed a bug or implemented a feature, please send a [pull request](https://github.com/kemboy-svg/dropdown_search_picker/pulls).
+
 
 
 ## License
