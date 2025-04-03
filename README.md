@@ -41,7 +41,7 @@ import 'package:dropdown_search_picker/dropdown_search_picker.dart';
 Use the widget:
 
 ```dart
-CustomDropdownPicker<String>(
+DropdownSearchPicker<String>(
   title: 'Select a location',
   items: ['Kitengela', 'Nairobi', 'Bhaghatell', 'Port-louis','Grand Bay'],
   getItemLabel: (item) => item,
