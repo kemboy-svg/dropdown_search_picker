@@ -1,6 +1,6 @@
 name: dropdown_search_picker
 description: "A new flutter package for that allow you to customize and search times in dropdown."
-version: 1.0.1
+version: 1.0.2
 homepage: https://github.com/kemboy-svg/dropdown_search_picker
 
 environment:

@@ -58,6 +58,8 @@ DropdownSearchPicker<String>(
 - **getItemLabel**: A function to extract the display label from the item.
 - **onItemSelected**: A callback function when an item is selected.
 - **initial**: Placeholder text before selection.
+- **multiselect**: bool multiSelect flag to enable/disable multi-selection.
+
 
 ## Contributions
 

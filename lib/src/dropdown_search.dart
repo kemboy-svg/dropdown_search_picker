@@ -6,8 +6,9 @@ class DropdownSearchPicker<T> extends StatefulWidget {
   final String title;
   final List<T> items;
   final String Function(T) getItemLabel;
-  final Function(T) onItemSelected;
+  final Function(List<T>) onItemSelected;
   final String? initial;
+  final bool multiSelect;
 
   const DropdownSearchPicker({
     required this.title,
@@ -15,17 +16,17 @@ class DropdownSearchPicker<T> extends StatefulWidget {
     required this.getItemLabel,
     required this.onItemSelected,
     this.initial,
+    this.multiSelect = false,
     super.key,
   });
 
   @override
-  // ignore: library_private_types_in_public_api
   _DropdownSearchPickerState<T> createState() =>
       _DropdownSearchPickerState<T>();
 }
 
 class _DropdownSearchPickerState<T> extends State<DropdownSearchPicker<T>> {
-  T? selectedItem;
+  List<T> selectedItems = [];
   final TextEditingController _searchController = TextEditingController();
   late List<T> filteredItems;
   bool isDropdownOpen = false;
@@ -45,18 +46,30 @@ class _DropdownSearchPickerState<T> extends State<DropdownSearchPicker<T>> {
           onTap: _toggleDropdown,
           child: InputDecorator(
             decoration: InputDecoration(
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0)),
-              labelText: selectedItem != null
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(8.0)),
+              labelText: selectedItems.isNotEmpty
                   ? widget.title
                   : "Select ${widget.title}",
-              contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(selectedItem != null
-                    ? widget.getItemLabel(selectedItem!)
-                    : widget.initial ?? ''),
+                Expanded(
+                  child: Text(
+                    selectedItems.isNotEmpty
+                        ? (selectedItems.length == 1
+                            ? widget.getItemLabel(
+                                selectedItems.first) 
+                            : selectedItems
+                                .map(widget.getItemLabel)
+                                .join(", "))
+                        : widget.initial ?? '',
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
                 const Icon(Icons.arrow_drop_down),
               ],
             ),
@@ -73,8 +86,9 @@ class _DropdownSearchPickerState<T> extends State<DropdownSearchPicker<T>> {
                   controller: _searchController,
                   decoration: InputDecoration(
                     labelText: 'Search',
-                    prefixIcon: Icon(Icons.search),
-                    contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                    prefixIcon: const Icon(Icons.search),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 12),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12)),
                   ),
@@ -90,9 +104,23 @@ class _DropdownSearchPickerState<T> extends State<DropdownSearchPicker<T>> {
                   child: ListView.builder(
                     itemCount: filteredItems.length,
                     itemBuilder: (context, index) {
+                      final item = filteredItems[index];
+                      final isSelected = selectedItems.contains(item);
                       return ListTile(
-                        title: Text(widget.getItemLabel(filteredItems[index])),
-                        onTap: () => _selectItem(filteredItems[index]),
+                        title: Text(widget.getItemLabel(item)),
+                        leading: widget.multiSelect
+                            ? Checkbox(
+                                value: isSelected,
+                                onChanged: (_) => _toggleSelection(item),
+                              )
+                            : null,
+                        onTap: () {
+                          if (widget.multiSelect) {
+                            _toggleSelection(item);
+                          } else {
+                            _selectSingleItem(item);
+                          }
+                        },
                       );
                     },
                   ),
@@ -108,17 +136,33 @@ class _DropdownSearchPickerState<T> extends State<DropdownSearchPicker<T>> {
     setState(() {
       filteredItems = query.isEmpty
           ? List.from(widget.items)
-          : widget.items.where((item) => widget.getItemLabel(item).toLowerCase().contains(query.toLowerCase())).toList();
+          : widget.items
+              .where((item) => widget
+                  .getItemLabel(item)
+                  .toLowerCase()
+                  .contains(query.toLowerCase()))
+              .toList();
     });
   }
 
-  void _selectItem(T item) {
+  void _toggleSelection(T item) {
     setState(() {
-      selectedItem = item;
+      if (selectedItems.contains(item)) {
+        selectedItems.remove(item);
+      } else {
+        selectedItems.add(item);
+      }
+    });
+    widget.onItemSelected(selectedItems); // Notify parent widget instantly
+  }
+
+  void _selectSingleItem(T item) {
+    setState(() {
+      selectedItems = [item];
       isDropdownOpen = false;
       _searchController.clear();
     });
-    widget.onItemSelected(item);
+    widget.onItemSelected(selectedItems);
   }
 
   void _toggleDropdown() {
