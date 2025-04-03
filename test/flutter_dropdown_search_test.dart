@@ -9,6 +9,6 @@ void main() {
       getItemLabel: (item) => item,
       onItemSelected: (item) {},
     );
-    expect(dropdown.items.length, 3);
+    expect(dropdown.items.length, 4);
   });
 }
