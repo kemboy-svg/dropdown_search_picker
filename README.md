@@ -15,7 +15,7 @@ Add the following to your `pubspec.yaml`:
 dependencies:
   dropdown_search_picker:
     git:
-      url: https://github.com/your-repo/flutter_dropdown_search.git
+      url: https://github.com/dropdown_search_picker/flutter_dropdown_search.git
 ```
 
 Or after publishing:
@@ -35,7 +35,7 @@ flutter pub get
 Import the package:
 
 ```dart
-import 'package:flutter_dropdown_search/flutter_dropdown_search.dart';
+import 'package:dropdown_search_picker/dropdown_search_picker.dart';
 ```
 
 Use the widget:
